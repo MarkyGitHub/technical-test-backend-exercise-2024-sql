@@ -15,7 +15,7 @@ spring:
   jpa:
     show_sql: false
     hibernate:
-      ddl-auto: update # Automatically creates/updates the database schema
+      ddl-auto: update 
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE;IGNORECASE=TRUE
     driverClassName: org.h2.Driver
@@ -58,7 +58,7 @@ spring:
       path: /h2-console
   sql:
     init:
-      platform: h2  # Ensure proper indentation here as well
+      platform: h2  
       mode: never
 
 stripe:
