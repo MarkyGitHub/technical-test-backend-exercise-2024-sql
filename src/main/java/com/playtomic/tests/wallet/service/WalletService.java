@@ -24,20 +24,21 @@ public class WalletService {
     private WalletActionsRepository walletActionsRepository;
 
     public synchronized Wallet topUpWallet(Long walletId, BigDecimal amount, String creditCard) {
-        Wallet wallet = getWalletById(walletId); // Ensure wallet exists, otherwise throw exception
-        stripePaymentService.charge(creditCard, amount); // Ensure Stripe payment is handled properly
-        wallet.setBalance(wallet.getBalance().add(amount)); // Update wallet balance
+        Wallet wallet = getWalletById(walletId); 
+        stripePaymentService.charge(creditCard, amount); 
+        wallet.setBalance(wallet.getBalance().add(amount)); 
     
         WalletActions aWalletActions = new WalletActions(walletId, "TOPUP", amount, LocalDateTime.now());
-        walletActionsRepository.save(aWalletActions); // Log the action
+        walletActionsRepository.save(aWalletActions); 
     
-        return walletRepository.save(wallet); // Save the updated wallet
+        return walletRepository.save(wallet);
     }
     
     
     public Wallet spendFromWallet(Long walletId, BigDecimal amount) {
         Wallet wallet = getWalletById(walletId);
         if (wallet.getBalance().compareTo(amount) < 0) {
+            RuntimeException aRuntimeException = new InsufficientBalanceException("Insufficient balance to make the purchase");
             throw new InsufficientBalanceException("Insufficient balance to make the purchase");
         }
         wallet.setBalance(wallet.getBalance().subtract(amount));
