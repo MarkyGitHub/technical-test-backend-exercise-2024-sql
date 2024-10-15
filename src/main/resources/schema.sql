@@ -1,6 +1,6 @@
 
 CREATE TABLE wallet (
-  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,  -- Ensure auto-increment for the primary key
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
   balance NUMERIC(38, 2)
 );
 
